@@ -39,6 +39,19 @@ export const Default: Story = {
         group: "채소",
         items: [{ value: "오이" }, { value: "당근" }, { value: "상추" }],
       },
+      {
+        group: "",
+        items: [{ value: "Option A" }, { value: "Option B" }],
+      },
+      {
+        group: "none",
+        disabled: true,
+        items: [
+          { value: "Option 1" },
+          { value: "Option 2" },
+          { value: "Option 3" },
+        ],
+      },
     ],
   },
 };
@@ -65,10 +78,26 @@ export const Disabled: Story = {
         ],
       },
       {
+        group: "",
+        items: [
+          {
+            value: "Option 4123",
+          },
+        ],
+      },
+      {
         group: "none",
         items: [
           {
             value: "Option 3",
+          },
+        ],
+      },
+      {
+        group: "",
+        items: [
+          {
+            value: "Option 4",
           },
         ],
       },

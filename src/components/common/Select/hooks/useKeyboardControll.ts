@@ -56,7 +56,7 @@ const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
       map.set(item.value, index);
       return map;
     }, new Map<string, number>());
-  }, [flatOptions]); // flatOptions에 의존
+  }, [flatOptions]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
     if (listLength === 0) return;

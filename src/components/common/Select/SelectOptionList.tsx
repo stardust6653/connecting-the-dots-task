@@ -4,6 +4,7 @@ import SelectOptionItem from "./SelectOptionItem";
 import type { ListAriaDataType } from "./hooks/useGetAriaData";
 import type { OptionGroupType } from "../../../types/select.type";
 import GroupHeader from "./GroupHeader";
+import { mergeGroupedOptions } from "../../../utils/select";
 
 interface SelectOptionProps {
   options: OptionGroupType[];
@@ -33,6 +34,8 @@ const SelectOptionList = ({
   const listContainerStyle =
     "absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-auto";
 
+  const mergedGroupOptions = mergeGroupedOptions(options);
+
   return (
     <ul
       ref={listRef}
@@ -44,9 +47,8 @@ const SelectOptionList = ({
       aria-labelledby={getListProps.ariaLabelledby}
       aria-activedescendant={highlightedId || undefined}
     >
-      {options.map((group) => {
+      {mergedGroupOptions.map((group) => {
         const groupDisabled = group.disabled || false;
-
         return (
           <Fragment key={group.group}>
             <GroupHeader group={group} groupDisabled={groupDisabled} />
