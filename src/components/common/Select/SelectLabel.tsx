@@ -5,12 +5,20 @@ interface Props {
   label: string;
   open: boolean;
   getLabelProps: LabelAriaDataType;
+  disabled?: boolean;
 }
 
-const SelectLabel = ({ isFloating, label, open, getLabelProps }: Props) => {
+const SelectLabel = ({
+  isFloating,
+  label,
+  open,
+  getLabelProps,
+  disabled = false,
+}: Props) => {
+  const bgColor = disabled ? "bg-gray-100" : "bg-white";
+
   // 1. 기본 베이스
-  const baseStyle =
-    "absolute left-4 px-1 bg-white transition-all duration-200 pointer-events-none z-10 truncate block max-w-[calc(100%-32px)]";
+  const baseStyle = `absolute left-4 px-1 ${bgColor} transition-all duration-200 pointer-events-none z-10 truncate block max-w-[calc(100%-32px)]`;
 
   // 2. 위치 결정
   const positionStyle = isFloating

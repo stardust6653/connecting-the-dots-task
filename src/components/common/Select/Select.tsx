@@ -32,6 +32,7 @@ const Select = ({ label, options, disabled = false }: Props) => {
       <SelectLabel
         open={open}
         isFloating={isFloating}
+        disabled={disabled}
         label={label}
         getLabelProps={getLabelProps(label)}
       />

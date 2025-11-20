@@ -22,14 +22,16 @@ const SelectButton = ({
 
   // 1. 기본 베이스
   const baseStyle =
-    "w-full border rounded px-4 py-3 text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-300";
+    "w-full border rounded px-4 py-3 text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border-gray-800";
 
   // 2. 활성 상태
-  const activeStyle = open ? "border-blue-500 ring-1 ring-blue-500" : "";
+  const activeStyle = open
+    ? "border-blue-500 ring-2 ring-blue-500 shadow-md"
+    : "";
 
   // 3. 상호작용/비활성화 상태
   const interactionStyle = disabled
-    ? "text-gray-400 cursor-not-allowed"
+    ? "text-gray-400 cursor-not-allowed border-gray-400 bg-gray-100"
     : "cursor-pointer";
 
   return (
