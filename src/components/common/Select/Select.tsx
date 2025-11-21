@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import SelectLabel from "./SelectLabel";
 import SelectButton from "./SelectButton";
 import SelectOptionList from "./SelectOptionList";
@@ -14,6 +14,8 @@ interface Props {
   options: OptionGroupType[];
   disabled?: boolean;
   customStyles?: SelectCustomStyleType;
+  selectedOption: string;
+  setSelectedOption: Dispatch<SetStateAction<string>>;
 }
 
 const Select = ({
@@ -21,9 +23,10 @@ const Select = ({
   options,
   disabled = false,
   customStyles = {},
+  selectedOption,
+  setSelectedOption,
 }: Props) => {
   const [open, setOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
 
   const isFloating = selectedOption !== "" || open;
 
