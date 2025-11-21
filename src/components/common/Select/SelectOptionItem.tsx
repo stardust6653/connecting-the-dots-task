@@ -14,6 +14,21 @@ interface Props {
   optionItemStyle: SelectOptionItemStyleType;
 }
 
+const getOptionClass = (
+  index: number,
+  highlightedIndex: number,
+  isDisabled: boolean,
+  isSelected: boolean,
+  optionItemStyle: SelectOptionItemStyleType
+) => {
+  const isHighlighted = index === highlightedIndex;
+  return `${optionItemStyle.BASE_STYLE} ${
+    isHighlighted ? optionItemStyle.HIGHLIGHTED_STYLE : ""
+  } ${isDisabled ? optionItemStyle.DISABLED_STYLE : ""} ${
+    isSelected && !isHighlighted ? "bg-gray-50" : ""
+  }`;
+};
+
 const SelectOptionItem = ({
   index,
   highlightedIndex,
@@ -26,25 +41,20 @@ const SelectOptionItem = ({
   const optionRef = useScrollOnHighlight(index, highlightedIndex);
   const isSelected = option.value === selectedOption;
 
-  const getOptionClass = () => {
-    const isHighlighted = index === highlightedIndex;
-    return `${optionItemStyle.BASE_STYLE} ${
-      isHighlighted ? optionItemStyle.HIGHLIGHTED_STYLE : ""
-    } ${isDisabled ? optionItemStyle.DISABLED_STYLE : ""} ${
-      isSelected && !isHighlighted ? "bg-gray-50" : ""
-    }`;
-  };
-
   const handleItemClick = () => {
-    if (!isDisabled) {
-      handleOptionClick(option);
-    }
+    if (!isDisabled) handleOptionClick(option);
   };
 
   return (
     <li
       key={option.value}
-      className={getOptionClass()}
+      className={getOptionClass(
+        index,
+        highlightedIndex,
+        isDisabled,
+        isSelected,
+        optionItemStyle
+      )}
       onClick={handleItemClick}
       ref={optionRef}
       role="option"
