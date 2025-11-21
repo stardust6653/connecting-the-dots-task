@@ -1,6 +1,4 @@
-import { type Dispatch, type SetStateAction, Fragment } from "react";
-import useKeyboardControl from "./hooks/useKeyboardControl";
-import SelectOptionItem from "./SelectOptionItem";
+import { type Dispatch, type SetStateAction } from "react";
 import type { ListAriaDataType } from "./hooks/useGetAriaData";
 import type {
   ListGroupStyleType,
@@ -8,8 +6,9 @@ import type {
   SelectOptionItemStyleType,
   SelectOptionListStyleType,
 } from "../../../types/select.type";
-import GroupHeader from "./GroupHeader";
 import { mergeGroupedOptions } from "../../../utils/select";
+import SelectOptionGroup from "./SelectOptionGroup";
+import useKeyboardControl from "./hooks/useKeyboardControl";
 
 interface SelectOptionProps {
   options: OptionGroupType[];
@@ -54,35 +53,15 @@ const SelectOptionList = ({
       aria-labelledby={getListProps.ariaLabelledby}
       aria-activedescendant={highlightedId || undefined}
     >
-      {mergedGroupOptions.map((group) => {
-        const groupDisabled = group.disabled || false;
-        return (
-          <Fragment key={group.group}>
-            <GroupHeader
-              group={group}
-              groupDisabled={groupDisabled}
-              listGroupStyle={listGroupStyle}
-            />
-            {group.items.map((item) => {
-              const linearIndex = flatIndexMap.get(item.value) ?? -1;
-              const itemIsDisabled = item.disabled || groupDisabled;
-
-              return (
-                <SelectOptionItem
-                  key={item.value}
-                  index={linearIndex}
-                  option={item}
-                  highlightedIndex={highlightedIndex}
-                  isDisabled={itemIsDisabled}
-                  handleOptionClick={() => handleOptionClick(item)}
-                  selectedOption={selectedOption}
-                  optionItemStyle={optionItemStyle}
-                />
-              );
-            })}
-          </Fragment>
-        );
-      })}
+      <SelectOptionGroup
+        listGroupStyle={listGroupStyle}
+        flatIndexMap={flatIndexMap}
+        highlightedIndex={highlightedIndex}
+        handleOptionClick={handleOptionClick}
+        selectedOption={selectedOption}
+        optionItemStyle={optionItemStyle}
+        mergedGroupOptions={mergedGroupOptions}
+      />
     </ul>
   );
 };
