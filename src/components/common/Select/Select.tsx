@@ -3,15 +3,25 @@ import SelectLabel from "./SelectLabel";
 import SelectButton from "./SelectButton";
 import SelectOptionList from "./SelectOptionList";
 import useGetAriaData from "./hooks/useGetAriaData";
-import type { OptionGroupType } from "../../../types/select.type";
+import type {
+  OptionGroupType,
+  SelectCustomStyleType,
+} from "../../../types/select.type";
+import { useSelectStyles } from "./hooks/useSelectStyle";
 
 interface Props {
   label: string;
   options: OptionGroupType[];
   disabled?: boolean;
+  customStyles?: SelectCustomStyleType;
 }
 
-const Select = ({ label, options, disabled = false }: Props) => {
+const Select = ({
+  label,
+  options,
+  disabled = false,
+  customStyles = {},
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -24,17 +34,20 @@ const Select = ({ label, options, disabled = false }: Props) => {
     highlightedId: "",
   });
 
-  // 래퍼 스타일
-  const wrapperStyle = "relative w-full min-w-[200px] max-w-xs";
+  const {
+    wrapperStyle,
+    labelStyle,
+    buttonStyle,
+    optionListStyle,
+    optionItemStyle,
+  } = useSelectStyles({ open, disabled, isFloating, customStyles });
 
   return (
-    <div className={wrapperStyle}>
+    <div className={wrapperStyle.BASE_STYLE}>
       <SelectLabel
-        open={open}
-        isFloating={isFloating}
-        disabled={disabled}
         label={label}
         getLabelProps={getLabelProps(label)}
+        labelStyle={labelStyle}
       />
 
       <SelectButton
@@ -43,6 +56,7 @@ const Select = ({ label, options, disabled = false }: Props) => {
         disabled={disabled}
         setOpen={setOpen}
         getButtonProps={getButtonProps()}
+        buttonStyle={buttonStyle}
       />
 
       {open && (
@@ -52,6 +66,8 @@ const Select = ({ label, options, disabled = false }: Props) => {
           setOpen={setOpen}
           setSelectedOption={setSelectedOption}
           getListProps={getListProps()}
+          optionListStyle={optionListStyle}
+          optionItemStyle={optionItemStyle}
         />
       )}
     </div>

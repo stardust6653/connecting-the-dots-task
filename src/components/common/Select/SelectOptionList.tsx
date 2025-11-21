@@ -2,7 +2,11 @@ import { type Dispatch, type SetStateAction, Fragment } from "react";
 import useKeyboardControl from "./hooks/useKeyboardControll";
 import SelectOptionItem from "./SelectOptionItem";
 import type { ListAriaDataType } from "./hooks/useGetAriaData";
-import type { OptionGroupType } from "../../../types/select.type";
+import type {
+  OptionGroupType,
+  SelectOptionItemStyleType,
+  SelectOptionListStyleType,
+} from "../../../types/select.type";
 import GroupHeader from "./GroupHeader";
 import { mergeGroupedOptions } from "../../../utils/select";
 
@@ -12,6 +16,8 @@ interface SelectOptionProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   selectedOption: string;
   getListProps: ListAriaDataType;
+  optionListStyle: SelectOptionListStyleType;
+  optionItemStyle: SelectOptionItemStyleType;
 }
 
 const SelectOptionList = ({
@@ -20,6 +26,8 @@ const SelectOptionList = ({
   setOpen,
   getListProps,
   selectedOption,
+  optionListStyle,
+  optionItemStyle,
 }: SelectOptionProps) => {
   const {
     highlightedIndex,
@@ -30,10 +38,6 @@ const SelectOptionList = ({
     flatIndexMap,
   } = useKeyboardControl({ options, setSelectedOption, setOpen });
 
-  // 스타일 정의
-  const listContainerStyle =
-    "absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-auto";
-
   const mergedGroupOptions = mergeGroupedOptions(options);
 
   return (
@@ -41,7 +45,7 @@ const SelectOptionList = ({
       ref={listRef}
       tabIndex={-1}
       onKeyDown={handleKeyDown}
-      className={listContainerStyle}
+      className={optionListStyle.BASE_STYLE}
       role="listbox"
       id={getListProps.listboxId}
       aria-labelledby={getListProps.ariaLabelledby}
@@ -65,6 +69,7 @@ const SelectOptionList = ({
                   isDisabled={itemIsDisabled}
                   handleOptionClick={() => handleOptionClick(item)}
                   selectedOption={selectedOption}
+                  optionItemStyle={optionItemStyle}
                 />
               );
             })}

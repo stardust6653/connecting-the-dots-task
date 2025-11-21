@@ -1,4 +1,7 @@
-import type { OptionType } from "../../../types/select.type";
+import type {
+  OptionType,
+  SelectOptionItemStyleType,
+} from "../../../types/select.type";
 import { useScrollOnHighlight } from "./hooks/useScrollOnHighlight";
 
 interface Props {
@@ -8,6 +11,7 @@ interface Props {
   handleOptionClick: (value: OptionType) => void;
   selectedOption: string;
   isDisabled: boolean;
+  optionItemStyle: SelectOptionItemStyleType;
 }
 
 const SelectOptionItem = ({
@@ -17,27 +21,18 @@ const SelectOptionItem = ({
   handleOptionClick,
   selectedOption,
   isDisabled,
+  optionItemStyle,
 }: Props) => {
   const optionRef = useScrollOnHighlight(index, highlightedIndex);
   const isSelected = option.value === selectedOption;
 
-  // 1. 베이스
-  const optionItemStyle =
-    "px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm truncate";
-
-  // 2. 강조 및 비활성화
-  const highlightedStyle = "bg-blue-100 font-semibold";
-
-  // 3. 비활성화
-  const disabledStyle = isDisabled
-    ? "text-gray-400 cursor-not-allowed hover:bg-white"
-    : "";
-
   const getOptionClass = () => {
     const isHighlighted = index === highlightedIndex;
-    return `${optionItemStyle} ${
-      isHighlighted ? highlightedStyle : ""
-    } ${disabledStyle} ${isSelected && !isHighlighted ? "bg-gray-50" : ""}`;
+    return `${optionItemStyle.BASE_STYLE} ${
+      isHighlighted ? optionItemStyle.HIGHLIGHTED_STYLE : ""
+    } ${isDisabled ? optionItemStyle.DISABLED_STYLE : ""} ${
+      isSelected && !isHighlighted ? "bg-gray-50" : ""
+    }`;
   };
 
   const handleItemClick = () => {
