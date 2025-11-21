@@ -45,16 +45,18 @@ const SelectOptionItem = ({
     if (!isDisabled) handleOptionClick(option);
   };
 
+  const itemStyleClass = getOptionClass(
+    index,
+    highlightedIndex,
+    isDisabled,
+    isSelected,
+    optionItemStyle
+  );
+
   return (
     <li
       key={option.value}
-      className={getOptionClass(
-        index,
-        highlightedIndex,
-        isDisabled,
-        isSelected,
-        optionItemStyle
-      )}
+      className={itemStyleClass}
       onClick={handleItemClick}
       ref={optionRef}
       role="option"
