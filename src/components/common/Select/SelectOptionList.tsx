@@ -1,5 +1,5 @@
 import { type Dispatch, type SetStateAction, Fragment } from "react";
-import useKeyboardControl from "./hooks/useKeyboardControll";
+import useKeyboardControl from "./hooks/useKeyboardControl";
 import SelectOptionItem from "./SelectOptionItem";
 import type { ListAriaDataType } from "./hooks/useGetAriaData";
 import type {
