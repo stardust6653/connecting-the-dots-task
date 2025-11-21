@@ -1,18 +1,19 @@
-import type { OptionGroupType } from "../../../types/select.type";
+import type {
+  ListGroupStyleType,
+  OptionGroupType,
+} from "../../../types/select.type";
 
 interface Props {
   group: OptionGroupType;
   groupDisabled: boolean;
+  listGroupStyle: ListGroupStyleType;
 }
 
-const GroupHeader = ({ group, groupDisabled }: Props) => {
-  const groupHeaderStyle =
-    "bg-gray-100 text-gray-800 py-1 px-4 cursor-default font-semibold text-xs border-b border-gray-200";
-
+const GroupHeader = ({ group, groupDisabled, listGroupStyle }: Props) => {
   return (
     <li
       role="presentation"
-      className={groupHeaderStyle}
+      className={listGroupStyle.BASE_STYLE}
       aria-disabled={groupDisabled}
     >
       {group.group}

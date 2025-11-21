@@ -15,9 +15,14 @@ export interface SelectCustomStyleType {
   buttonStyle?: SelectButtonStyleType;
   optionListStyle?: SelectOptionListStyleType;
   optionItemStyle?: SelectOptionItemStyleType;
+  listGroupStyle?: ListGroupStyleType;
 }
 
 export interface SelectWrapperStyleType {
+  BASE_STYLE: string;
+}
+
+export interface ListGroupStyleType {
   BASE_STYLE: string;
 }
 

@@ -40,6 +40,7 @@ const Select = ({
     buttonStyle,
     optionListStyle,
     optionItemStyle,
+    listGroupStyle,
   } = useSelectStyles({ open, disabled, isFloating, customStyles });
 
   return (
@@ -68,6 +69,7 @@ const Select = ({
           getListProps={getListProps()}
           optionListStyle={optionListStyle}
           optionItemStyle={optionItemStyle}
+          listGroupStyle={listGroupStyle}
         />
       )}
     </div>

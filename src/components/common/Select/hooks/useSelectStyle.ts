@@ -42,6 +42,7 @@ export const useSelectStyles = ({
       buttonStyle: overrideButton,
       optionListStyle: overrideOptionList,
       optionItemStyle: overrideOptionItem,
+      listGroupStyle: overrideGroupHeader,
     } = customStyles || {};
 
     const finalWrapperStyle = {
@@ -88,12 +89,18 @@ export const useSelectStyles = ({
       ...overrideOptionItem,
     };
 
+    const listGroupStyle = {
+      BASE_STYLE:
+        "bg-gray-100 text-gray-800 py-1 px-4 cursor-default font-semibold text-xs border-b border-gray-200",
+    };
+
     return {
       wrapperStyle: finalWrapperStyle,
       labelStyle: finalLabelStyle,
       buttonStyle: finalButtonStyle,
       optionListStyle: finalOptionListStyle,
       optionItemStyle: finalOptionItemStyle,
+      listGroupStyle,
     };
   }, [open, disabled, isFloating, customStyles]);
 

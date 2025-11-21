@@ -3,6 +3,7 @@ import useKeyboardControl from "./hooks/useKeyboardControll";
 import SelectOptionItem from "./SelectOptionItem";
 import type { ListAriaDataType } from "./hooks/useGetAriaData";
 import type {
+  ListGroupStyleType,
   OptionGroupType,
   SelectOptionItemStyleType,
   SelectOptionListStyleType,
@@ -18,6 +19,7 @@ interface SelectOptionProps {
   getListProps: ListAriaDataType;
   optionListStyle: SelectOptionListStyleType;
   optionItemStyle: SelectOptionItemStyleType;
+  listGroupStyle: ListGroupStyleType;
 }
 
 const SelectOptionList = ({
@@ -28,6 +30,7 @@ const SelectOptionList = ({
   selectedOption,
   optionListStyle,
   optionItemStyle,
+  listGroupStyle,
 }: SelectOptionProps) => {
   const {
     highlightedIndex,
@@ -55,7 +58,11 @@ const SelectOptionList = ({
         const groupDisabled = group.disabled || false;
         return (
           <Fragment key={group.group}>
-            <GroupHeader group={group} groupDisabled={groupDisabled} />
+            <GroupHeader
+              group={group}
+              groupDisabled={groupDisabled}
+              listGroupStyle={listGroupStyle}
+            />
             {group.items.map((item) => {
               const linearIndex = flatIndexMap.get(item.value) ?? -1;
               const itemIsDisabled = item.disabled || groupDisabled;
