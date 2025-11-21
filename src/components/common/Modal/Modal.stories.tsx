@@ -67,7 +67,6 @@ export const Variant: Story = {
           </button>
         </div>
         <Modal
-          {...args}
           isOpen={isOpen}
           setIsOpen={handleClose}
           ariaLabel={args.ariaLabel}

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Select from "./Select";
+import { useState } from "react";
+import { SELECT_DUMMY_OPTIONS } from "./data/mock-data";
 
 const meta = {
   title: "Components/Select",
@@ -15,93 +17,30 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState("");
+    return (
+      <Select
+        {...args}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+      />
+    );
+  },
   args: {
     label: "기본 셀렉트",
-    options: [
-      {
-        group: "과일",
-        items: [
-          { value: "귤", disabled: true },
-          { value: "사과" },
-          { value: "바나나" },
-        ],
-      },
-      {
-        group: "none",
-        disabled: true,
-        items: [
-          { value: "Option 1" },
-          { value: "Option 2" },
-          { value: "Option 3" },
-        ],
-      },
-      {
-        group: "채소",
-        items: [{ value: "오이" }, { value: "당근" }, { value: "상추" }],
-      },
-      {
-        group: "",
-        items: [{ value: "Option A" }, { value: "Option B" }],
-      },
-      {
-        group: "none",
-        disabled: true,
-        items: [
-          { value: "Option 1" },
-          { value: "Option 2" },
-          { value: "Option 3" },
-        ],
-      },
-    ],
+    selectedOption: "",
+    setSelectedOption: () => {},
+    options: SELECT_DUMMY_OPTIONS,
   },
 };
 
 export const Disabled: Story = {
   args: {
     label: "비활성화",
-    options: [
-      {
-        group: "none",
-        items: [
-          {
-            value: "Option 1",
-          },
-        ],
-      },
-      {
-        group: "none",
-        items: [
-          {
-            value: "Option 2",
-            disabled: true,
-          },
-        ],
-      },
-      {
-        group: "",
-        items: [
-          {
-            value: "Option 4123",
-          },
-        ],
-      },
-      {
-        group: "none",
-        items: [
-          {
-            value: "Option 3",
-          },
-        ],
-      },
-      {
-        group: "",
-        items: [
-          {
-            value: "Option 4",
-          },
-        ],
-      },
-    ],
+    selectedOption: "",
+    setSelectedOption: () => {},
+    options: SELECT_DUMMY_OPTIONS,
     disabled: true,
   },
 };
