@@ -1,9 +1,8 @@
+import type { ModalCustomStyleType } from "../../../../types/modal.type";
+
 interface Props {
   animationClasses: string;
-  customStyles?: {
-    backdrop?: string;
-    modalContent?: string;
-  };
+  customStyles?: ModalCustomStyleType;
 }
 
 const useModalStyle = ({ animationClasses, customStyles }: Props) => {

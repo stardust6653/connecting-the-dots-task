@@ -9,7 +9,10 @@ import { getPortalRoot } from "../../../utils/modal";
 import useModalControl from "./hooks/useModalControl";
 import useModalAnimation from "./hooks/useModalAnimation";
 import useModalStyle from "./hooks/useModalStyle";
-import type { ModalAnimationType } from "../../../types/modal.type";
+import type {
+  ModalAnimationType,
+  ModalCustomStyleType,
+} from "../../../types/modal.type";
 
 interface Props {
   isOpen: boolean;
@@ -17,10 +20,7 @@ interface Props {
   children: ReactNode;
   animation?: ModalAnimationType;
   ariaLabel?: string;
-  customStyles?: {
-    backdrop?: string;
-    modalContent?: string;
-  };
+  customStyles?: ModalCustomStyleType;
 }
 
 const Modal = ({
