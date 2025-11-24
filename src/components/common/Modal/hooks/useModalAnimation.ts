@@ -7,28 +7,29 @@ interface Props {
 }
 
 const useModalAnimation = ({ isOpen, animation = "none" }: Props) => {
-  const [isActive, setIsActive] = useState(false);
-
   const [shouldRender, setShouldRender] = useState(isOpen);
+  const [isActive, setIsActive] = useState(isOpen);
 
   useEffect(() => {
     if (isOpen) {
-      setShouldRender(true);
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => setIsActive(true))
-      );
+      requestAnimationFrame(() => {
+        setShouldRender(true);
+        requestAnimationFrame(() => setIsActive(true));
+      });
     } else {
-      if (animation === "none") {
-        setShouldRender(false);
-        return;
-      }
-      setIsActive(false);
-      const timer = setTimeout(() => setShouldRender(false), 200);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
-  const transitionBase = "transition-all duration-500 ease-in-out";
+      requestAnimationFrame(() => {
+        setIsActive(false);
+        if (animation === "none") setShouldRender(false);
+      });
 
+      if (animation !== "none") {
+        const timer = setTimeout(() => setShouldRender(false), 200);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isOpen, animation]);
+
+  const transitionBase = "transition-all duration-500 ease-in-out";
   let specificClasses = "";
 
   switch (animation) {

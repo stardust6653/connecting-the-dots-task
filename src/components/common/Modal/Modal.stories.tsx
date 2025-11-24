@@ -70,6 +70,7 @@ export const Variant: Story = {
           isOpen={isOpen}
           setIsOpen={handleClose}
           ariaLabel={args.ariaLabel}
+          animation={args.animation}
         >
           {args.children}
         </Modal>
