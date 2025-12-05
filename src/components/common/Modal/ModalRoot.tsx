@@ -13,6 +13,9 @@ import type {
   ModalAnimationType,
   ModalCustomStyleType,
 } from "../../../types/modal.type";
+import { ModalContext } from "./context/useModalContext";
+import ModalBackdrop from "./ModalBackdrop";
+import useModalContextState from "./hooks/useModalContextState";
 
 interface Props {
   isOpen: boolean;
@@ -23,7 +26,7 @@ interface Props {
   customStyles?: ModalCustomStyleType;
 }
 
-const Modal = ({
+const ModalRoot = ({
   isOpen,
   setIsOpen,
   children,
@@ -31,14 +34,14 @@ const Modal = ({
   ariaLabel = "모달",
   customStyles = {},
 }: Props) => {
-  const modalContentRef = useRef<HTMLDivElement>(null);
+  const modalContentRef = useRef<HTMLDivElement | null>(null);
 
   const { animationClasses, shouldRender } = useModalAnimation({
     animation,
     isOpen,
   });
 
-  const { BackdropStyle, ModalStyle } = useModalStyle({
+  const { backdropStyle, modalStyle } = useModalStyle({
     animationClasses,
     customStyles,
   });
@@ -49,27 +52,23 @@ const Modal = ({
     isOpen: shouldRender,
   });
 
+  const contextValue = useModalContextState({
+    isOpen,
+    setIsOpen,
+    ariaLabel,
+    backdropStyle,
+    modalStyle,
+    modalContentRef,
+  });
+
   if (!shouldRender) return null;
 
   return createPortal(
-    <div
-      className={BackdropStyle}
-      role="dialog"
-      aria-modal="true"
-      aria-label={ariaLabel}
-      onClick={() => setIsOpen(false)}
-    >
-      <div
-        className={ModalStyle}
-        onClick={(e) => e.stopPropagation()}
-        ref={modalContentRef}
-        tabIndex={-1}
-      >
-        {children}
-      </div>
-    </div>,
+    <ModalContext.Provider value={contextValue}>
+      <ModalBackdrop>{children}</ModalBackdrop>
+    </ModalContext.Provider>,
     getPortalRoot()
   );
 };
 
-export default Modal;
+export default ModalRoot;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Modal from "./Modal";
 import { useArgs } from "storybook/internal/preview-api";
+import { Modal } from ".";
 
 const meta = {
   title: "Components/Modal",
@@ -70,24 +70,42 @@ export const Variant: Story = {
           isOpen={isOpen}
           setIsOpen={handleClose}
           ariaLabel={args.ariaLabel}
+          animation={args.animation}
         >
-          {args.children}
+          <Modal.Container>
+            <Modal.Title title="모달 제목" showClosedButton={true} />
+            <Modal.Body scrollable={true} height={300}>
+              {args.children}
+            </Modal.Body>
+            <Modal.Footer>
+              <button
+                onClick={handleClose}
+                className="p-2 bg-gray-300 rounded w-full"
+              >
+                닫기
+              </button>
+            </Modal.Footer>
+          </Modal.Container>
         </Modal>
       </>
     );
   },
   args: {
     children: (
-      <div>
-        <h2 className="text-xl font-bold mb-4">모달 제목</h2>
+      <>
         <p className="mb-4">이것은 모달의 내용입니다.</p>
-
         <div className="flex flex-col gap-2">
           <button className="p-4 border rounded">트랩 테스트1</button>
           <button className="p-4 border rounded">트랩 테스트2</button>
           <button className="p-4 border rounded">트랩 테스트3</button>
+          <button className="p-4 border rounded">트랩 테스트1</button>
+          <button className="p-4 border rounded">트랩 테스트2</button>
+          <button className="p-4 border rounded">트랩 테스트3</button>
+          <button className="p-4 border rounded">트랩 테스트1</button>
+          <button className="p-4 border rounded">트랩 테스트2</button>
+          <button className="p-4 border rounded">트랩 테스트3</button>
         </div>
-      </div>
+      </>
     ),
     isOpen: false,
     setIsOpen: () => {},
