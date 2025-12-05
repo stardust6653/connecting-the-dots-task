@@ -74,6 +74,7 @@ export const Variant: Story = {
         >
           <Modal.Container>
             <Modal.Title title="모달 제목" showClosedButton={true} />
+            <Modal.SubTitle subTitle="이것은 모달의 내용입니다." />
             <Modal.Body scrollable={true} height={300}>
               {args.children}
             </Modal.Body>
@@ -93,7 +94,7 @@ export const Variant: Story = {
   args: {
     children: (
       <>
-        <p className="mb-4">이것은 모달의 내용입니다.</p>
+        <p className="mb-4"></p>
         <div className="flex flex-col gap-2">
           <button className="p-4 border rounded">트랩 테스트1</button>
           <button className="p-4 border rounded">트랩 테스트2</button>

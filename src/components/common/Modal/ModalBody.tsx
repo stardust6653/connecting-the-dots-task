@@ -9,7 +9,10 @@ const ModalBody = ({ children, scrollable, height = "auto" }: Props) => {
   const scrollableValue = scrollable ? "overflow-auto" : "";
 
   return (
-    <div className={`mb-4 ${scrollableValue} `} style={{ height: heightValue }}>
+    <div
+      className={`mb-4 w-full ${scrollableValue} `}
+      style={{ height: heightValue }}
+    >
       {children}
     </div>
   );
