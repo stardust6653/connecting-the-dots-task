@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type {
   ListGroupStyleType,
   OptionGroupType,
@@ -28,22 +29,22 @@ const SelectOptionGroup = ({
 }: Props) => {
   return (
     <>
-      {mergedGroupOptions.map((group) => {
+      {mergedGroupOptions.map((group, index) => {
         const groupDisabled = group.disabled || false;
         return (
-          <>
+          <Fragment key={index}>
             <GroupHeader
               group={group}
               groupDisabled={groupDisabled}
               listGroupStyle={listGroupStyle}
             />
-            {group.items.map((item) => {
+            {group.items.map((item, index) => {
               const linearIndex = flatIndexMap.get(item.value) ?? -1;
               const itemIsDisabled = item.disabled || groupDisabled;
 
               return (
                 <SelectOptionItem
-                  key={item.value}
+                  key={index}
                   index={linearIndex}
                   option={item}
                   highlightedIndex={highlightedIndex}
@@ -54,7 +55,7 @@ const SelectOptionGroup = ({
                 />
               );
             })}
-          </>
+          </Fragment>
         );
       })}
     </>
