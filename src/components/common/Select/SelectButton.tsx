@@ -23,6 +23,10 @@ const SelectButton = ({
     if (!disabled) setOpen(!open);
   };
 
+  const accessibleName = `${getButtonProps.ariaLabelledby}: ${
+    selectedOption || "선택 안됨"
+  }`;
+
   return (
     <button
       type="button"
@@ -32,8 +36,7 @@ const SelectButton = ({
       aria-haspopup="listbox"
       aria-expanded={open}
       aria-controls={open ? getButtonProps.ariaControls : undefined}
-      aria-labelledby={getButtonProps.ariaLabelledby}
-      aria-label={selectedOption}
+      aria-label={accessibleName}
     >
       <span className="block truncate">
         {selectedOption || <span className="invisible">&nbsp;</span>}
