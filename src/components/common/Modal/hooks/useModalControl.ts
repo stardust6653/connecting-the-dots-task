@@ -19,23 +19,26 @@ const useModalControl = ({ setIsOpen, modalRef, isOpen }: Props) => {
     if (!modalElement) return;
 
     const prevFocus = document.activeElement as HTMLElement;
+    const animationFrameId = requestAnimationFrame(() => {
+      modalElement.focus();
+    });
 
-    requestAnimationFrame(() => modalElement.focus());
+    const focusableElements = modalElement.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    ) as NodeListOf<HTMLElement>;
 
-    const handleTabKey = (event: KeyboardEvent) => {
-      if (event.key !== "Tab") return;
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
 
-      const focusableElements = modalElement.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      ) as NodeListOf<HTMLElement>;
-
-      if (focusableElements.length === 0) {
-        event.preventDefault();
-        return;
-      }
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        event.stopPropagation();
+      } else if (event.key === "Tab")
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          return;
+        }
 
       if (event.shiftKey) {
         if (
@@ -53,16 +56,10 @@ const useModalControl = ({ setIsOpen, modalRef, isOpen }: Props) => {
       }
     };
 
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-        event.stopPropagation();
-      } else if (event.key === "Tab") handleTabKey(event);
-    };
-
     document.addEventListener("keydown", handleKeydown);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       document.removeEventListener("keydown", handleKeydown);
       prevFocus?.focus();
     };

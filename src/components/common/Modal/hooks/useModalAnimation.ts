@@ -8,25 +8,38 @@ interface Props {
 
 const useModalAnimation = ({ isOpen, animation = "none" }: Props) => {
   const [isActive, setIsActive] = useState(false);
-
   const [shouldRender, setShouldRender] = useState(isOpen);
 
   useEffect(() => {
+    let requestAnimationFrame1: number | undefined;
+    let requestAnimationFrame2: number | undefined;
+    let timer: number | undefined;
+
     if (isOpen) {
-      setShouldRender(true);
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => setIsActive(true))
-      );
+      requestAnimationFrame1 = requestAnimationFrame(() => {
+        setShouldRender(true);
+        requestAnimationFrame2 = requestAnimationFrame(() => setIsActive(true));
+      });
     } else {
-      if (animation === "none") {
-        setShouldRender(false);
-        return;
+      requestAnimationFrame1 = requestAnimationFrame(() => {
+        setIsActive(false);
+        if (animation === "none") setShouldRender(false);
+      });
+
+      if (animation !== "none") {
+        timer = window.setTimeout(() => setShouldRender(false), 200);
       }
-      setIsActive(false);
-      const timer = setTimeout(() => setShouldRender(false), 200);
-      return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+
+    return () => {
+      if (requestAnimationFrame1 !== undefined)
+        cancelAnimationFrame(requestAnimationFrame1);
+      if (requestAnimationFrame2 !== undefined)
+        cancelAnimationFrame(requestAnimationFrame2);
+      if (timer !== undefined) clearTimeout(timer);
+    };
+  }, [isOpen, animation]);
+
   const transitionBase = "transition-all duration-500 ease-in-out";
 
   let specificClasses = "";

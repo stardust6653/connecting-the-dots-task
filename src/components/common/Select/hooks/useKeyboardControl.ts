@@ -18,6 +18,14 @@ interface Props {
 }
 
 const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const highlightedId =
+    highlightedIndex !== -1 ? `option-${highlightedIndex}` : undefined;
+
+  useEffect(() => listRef.current?.focus(), []);
+
   const flatOptions: OptionType[] = options.flatMap((group) => {
     const groupDisabled = group.disabled || false;
     return group.items.map((item) => ({
@@ -27,11 +35,14 @@ const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
     }));
   });
 
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const listRef = useRef<HTMLUListElement>(null);
-  const listLength = flatOptions.length;
+  const flatIndexMap = useMemo(() => {
+    return flatOptions.reduce((map, item, index) => {
+      map.set(item.value, index);
+      return map;
+    }, new Map<string, number>());
+  }, [flatOptions]);
 
-  useEffect(() => listRef.current?.focus(), []);
+  const listLength = flatOptions.length;
 
   const getNextActiveIndex = (prev: number, direction: 1 | -1): number => {
     let nextIndex = prev;
@@ -51,13 +62,6 @@ const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
     setOpen(false);
   };
 
-  const flatIndexMap = useMemo(() => {
-    return flatOptions.reduce((map, item, index) => {
-      map.set(item.value, index);
-      return map;
-    }, new Map<string, number>());
-  }, [flatOptions]);
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
     if (listLength === 0) return;
 
@@ -66,13 +70,10 @@ const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
         e.preventDefault();
         setHighlightedIndex((prev) => getNextActiveIndex(prev, 1));
         break;
-
       case "ArrowUp":
         e.preventDefault();
         setHighlightedIndex((prev) => getNextActiveIndex(prev, -1));
-
         break;
-
       case "Enter":
         e.preventDefault();
         if (highlightedIndex !== -1) {
@@ -80,15 +81,11 @@ const useKeyboardControl = ({ options, setSelectedOption, setOpen }: Props) => {
           if (!currentOption.disabled) handleOptionClick(currentOption);
         }
         break;
-
       case "Escape":
         e.preventDefault();
         setOpen(false);
     }
   };
-
-  const highlightedId =
-    highlightedIndex !== -1 ? `option-${highlightedIndex}` : undefined;
 
   return {
     highlightedIndex,
